@@ -70,4 +70,49 @@ const email = {
   message: "What is your email?",
   name: "email",
 };
+inquirer
+    .prompt([githubUser, gitHubLink, email, title, description, installation, usage, contributing, tests, license, ])
+    .then((response) => {
+      const badge = badges[response.license];
+  
+      fs.writeFile(
+        "readme.md",
+        `# ${response.title}
+  ### [![lic](${badge})](LICENSE)
+  ## Description:
+  ${response.description}
+  ## Table of Contents
+  * [Installation](#installation)
+  * [Usage](#usage)
+  * [Contributing](#contributing)
+  * [License](#license)
+  * [Tests](#tests)
+  * [Questions](#questions)
+  
+  ## Installation: 
+  ${response.installation}
+  ## Usage: 
+  ${response.usage}
+  ## Contributing: 
+  ${response.contributing}
+  ## License:
+  This application is covered under the following license: ${response.license}
+  ## Tests: 
+  ${response.tests}
+  ## Questions: 
+  ### github username: 
+  #### ${response.gitHubUser}
+  ### github link: 
+  #### ${response.gitHubLink}
+  ### If you would like to reach me with additional questions, here is my email: 
+  #### ${response.email}
+        `,
+      (err) => {
+        if (err) {
+          console.error('Error writing to file:', err);
+        } else {
+          console.log('File has been written successfully!');
+        }
+      });
+    });
 
